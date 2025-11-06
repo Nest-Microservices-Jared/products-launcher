@@ -19,6 +19,17 @@ services:
       - PORT=3000
       - NATS_SERVERS=nats://nats-server:4222
 
+  auth-microservice:
+    build: ./auth-microservice
+    volumes:
+      - ./auth-microservice/src:/usr/src/app/src
+    command: pnpm run start:dev
+    environment:
+      - PORT=3004
+      - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=${AUTH_DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+
   products-ms:
     build: ./products-microservice
     volumes:
